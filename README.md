@@ -119,6 +119,18 @@ it is just a visual artefact that can be (largely) ignored
 This is likely caused by the symbol indicating lock-on being broken. No fix is
 known
 
+### Running SRS
+
+[SRS](http://dcssimpleradio.com/) is used by a lot of multiplayer servers. It
+too works with some tweaks
+
+Install the game plugin by following the instructions in the SRS readme.
+
+It's easiest to run SRS in its own prefix. Create one, and then run `winetricks
+dotnet452 win10` in that prefix. Now you can start `SR-ClientRadio.exe` from
+the downloaded files.
+
+Credit: https://github.com/ciribob/DCS-SimpleRadioStandalone/issues/409.
 
 ### Module disabled by user
 
@@ -130,4 +142,5 @@ the module manager. On steam however, things are a bit more tricky. If you
 copied your configs between standalone and steam, module manager disabled mods
 will be disabled in steam too. This information is stored in
 `$CONFIG_DIR/enabled.lua` or something similar. Remove it to fix the issues
+
 
