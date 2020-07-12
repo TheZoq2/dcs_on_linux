@@ -41,22 +41,18 @@ after that. To fix that: remove `drive_c/windows/system32/lsteamclient.dll`
 which was created in the crash, and the game should start back up fine.
 
 
-### Open Beta (updated for 2.5.6.45915)
+### Open Beta (updated for 2.5.6.50979)
 
 First, some variables to avoid repetition:
 
 - `$USERNAME`: refers to the wine user. On standalone, this is your normal
   username and on steam it is `steamuser`
 - `$INSTALL_DIR`: the location in program files where the game is installed.
-  On standalone: `drive_c/Program Files/Eagle Dynamics/DCS`. On steam, it's
+  On standalone: `drive_c/Program Files/Eagle Dynamics/DCS`. or `DCS World OpenBeta` On steam, it's
   `/home/frans/.local/share/Steam/steamapps/common/DCSWorld`
 - `$CONFIG_DIR`: the place where user config stuff is stored
   `drive_c/users/$USERNAME/Saved Games/DCS<possibly openbeta>`
 - `$LOG`: the game log file `$CONFIG_DIR/Logs/dcs.log`
-
-Standalone needs a DLL override for login to work:
-`WINEDLLOVERRIDES="wbemprox="""`
-
 
 If the game crashes on startup, check `$LOG`. If it says something about
 `VoiceChat` or `webrtc_plugin.dll`, the built in voice chat system (which
@@ -84,6 +80,32 @@ version. Arial can not be distributed see
 https://law.stackexchange.com/a/14834. However, as linked in that stackexchange
 post, you can replace it with [Arimo](https://www.fontsquirrel.com/fonts/arimo)
 in `drive_c/windows/Fonts`
+
+
+### Multiplayer
+
+As of a few versions ago, the server browser does not work, and neither does
+directly connecting to servers using connect by IP. However, there is a
+workaround.
+
+Edit `$INSTALL_DIR/MissionEditor/modules/mul_password.lua`. Find the function `onChange_btnOk` and add the
+line `onlyConnect = true` to the start of the function like so.
+
+```lua
+function onChange_btnOk()  
+    onlyConnect = true -- This line was added
+	if onlyConnect == true then
+	-- ...
+end
+```
+
+Now you should be able to use the connect by IP button to join servers, but the
+server list is still broken. Luckily, a server list is available if you log in
+on https://www.digitalcombatsimulator.com/, and from there you can get the IP
+of servers.
+
+
+
 
 
 ## Known issues and fixes
@@ -125,6 +147,9 @@ known
 too works with some tweaks
 
 Install the game plugin by following the instructions in the SRS readme.
+
+*Note* As of SRS 19.0.1, this method no longer works. As a replacement, I have
+a custom SRS client that *kind of* works here https://gitlab.com/TheZoq2/srsrs.
 
 It's easiest to run SRS in its own prefix. Create one, and then run `winetricks
 dotnet452 win10` in that prefix. Now you can start `SR-ClientRadio.exe` from
