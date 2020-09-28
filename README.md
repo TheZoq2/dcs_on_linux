@@ -41,7 +41,7 @@ after that. To fix that: remove `drive_c/windows/system32/lsteamclient.dll`
 which was created in the crash, and the game should start back up fine.
 
 
-### Open Beta (updated for 2.5.6.50979)
+### Open Beta (updated for 2.5.6.55363)
 
 First, some variables to avoid repetition:
 
@@ -53,6 +53,11 @@ First, some variables to avoid repetition:
 - `$CONFIG_DIR`: the place where user config stuff is stored
   `drive_c/users/$USERNAME/Saved Games/DCS<possibly openbeta>`
 - `$LOG`: the game log file `$CONFIG_DIR/Logs/dcs.log`
+
+For standalone, if the game crashes before showing the login screen. You need
+to add a "dll override" for `wbemprox`. In lutris, you can do so under "runner
+options". For wine and steam proton, you can do so using the `WINEDLLOVERRIDES`
+flag https://wiki.winehq.org/Wine_User's_Guide#WINEDLLOVERRIDES.3DDLL_Overrides
 
 If the game crashes on startup, check `$LOG`. If it says something about
 `VoiceChat` or `webrtc_plugin.dll`, the built in voice chat system (which
@@ -80,32 +85,6 @@ version. Arial can not be distributed see
 https://law.stackexchange.com/a/14834. However, as linked in that stackexchange
 post, you can replace it with [Arimo](https://www.fontsquirrel.com/fonts/arimo)
 in `drive_c/windows/Fonts`
-
-
-### Multiplayer
-
-As of a few versions ago, the server browser does not work, and neither does
-directly connecting to servers using connect by IP. However, there is a
-workaround.
-
-Edit `$INSTALL_DIR/MissionEditor/modules/mul_password.lua`. Find the function `onChange_btnOk` and add the
-line `onlyConnect = true` to the start of the function like so.
-
-```lua
-function onChange_btnOk()  
-    onlyConnect = true -- This line was added
-	if onlyConnect == true then
-	-- ...
-end
-```
-
-Now you should be able to use the connect by IP button to join servers, but the
-server list is still broken. Luckily, a server list is available if you log in
-on https://www.digitalcombatsimulator.com/, and from there you can get the IP
-of servers.
-
-
-
 
 
 ## Known issues and fixes
@@ -167,5 +146,30 @@ the module manager. On steam however, things are a bit more tricky. If you
 copied your configs between standalone and steam, module manager disabled mods
 will be disabled in steam too. This information is stored in
 `$CONFIG_DIR/enabled.lua` or something similar. Remove it to fix the issues
+
+### Missing multiplayer server list
+
+For a few 2.5.6 versions, the server browser did not work, and neither did
+directly connecting to servers using connect by IP. However, there is a
+workaround.
+
+Edit `$INSTALL_DIR/MissionEditor/modules/mul_password.lua`. Find the function `onChange_btnOk` and add the
+line `onlyConnect = true` to the start of the function like so.
+
+```lua
+function onChange_btnOk()  
+    onlyConnect = true -- This line was added
+	if onlyConnect == true then
+	-- ...
+end
+```
+
+Now you should be able to use the connect by IP button to join servers, but the
+server list is still broken. Luckily, a server list is available if you log in
+on https://www.digitalcombatsimulator.com/, and from there you can get the IP
+of servers.
+
+
+
 
 
