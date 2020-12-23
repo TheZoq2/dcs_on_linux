@@ -41,7 +41,12 @@ after that. To fix that: remove `drive_c/windows/system32/lsteamclient.dll`
 which was created in the crash, and the game should start back up fine.
 
 
-### Open Beta (updated for 2.5.6.55363)
+### Open Beta (updated for 2.5.6.59398)
+
+For now, this guide assumes you use the standalone version. The steam version
+may also work, but I have not tested it in a while. Currently, wine 6.0 rc1 or
+the lutris version of that release are what work best but other wine versions
+may also work.
 
 First, some variables to avoid repetition:
 
@@ -59,33 +64,14 @@ to add a "dll override" for `wbemprox`. In lutris, you can do so under "runner
 options". For wine and steam proton, you can do so using the `WINEDLLOVERRIDES`
 flag https://wiki.winehq.org/Wine_User's_Guide#WINEDLLOVERRIDES.3DDLL_Overrides
 
-If the game crashes on startup, check `$LOG`. If it says something about
-`VoiceChat` or `webrtc_plugin.dll`, the built in voice chat system (which
-barely anyone is using) fails to load.
+With that change, you should be able to log in but once the game starts you
+will see a black screen. To fix this, create a symlink from
+`$INSTALL_DIR/bin/webrtc_plugin.dll` to `$INSTALL_dir/webrtc_plugin.dll`
 
-There are a few workarounds for this. If you only want to play single player,
-try one of the following:
+The game should now start
 
-- Replace `VoiceChat/bin/VoiceChat.dll` with `CaptoGlove/bin/CaptoGlove.dll` in
-  `$INSTALL_DIR/CoreMods/services`
-- Edit the LUA to stop loading voice chat
-  https://github.com/ValveSoftware/Proton/issues/1722#issuecomment-601839315
-
-If you want multi player, the above will make the integrity check fail.
-Luckily, it does not test the dll which causes the crash
-`$INSTALL_DIR/bin/webrtc_plugin.dll` so we can modify it to stop running.
-
-See https://github.com/ValveSoftware/Proton/issues/1722#issuecomment-606780304 for instructions
-
-*Standalone should now start*
-
-If the steam version crashes when done loading a game, check `$LOG`. If it says
-something about the arial font missing, you need to replace it with a working
-version. Arial can not be distributed see
-https://law.stackexchange.com/a/14834. However, as linked in that stackexchange
-post, you can replace it with [Arimo](https://www.fontsquirrel.com/fonts/arimo)
-in `drive_c/windows/Fonts`
-
+You may also see a crash when loading a mission. This might be caused by a
+Arial missing font which can not be distributed with wine.
 
 ## Known issues and fixes
 
@@ -95,57 +81,26 @@ After crashes, the crash reporter will spam a bit about various DLLs being used
 recently, and just before that, the cause of the crash should be visible.
 
 Sometimes crashes happen before the game gets far enough to create a log file.
-Then your best bet is to read the proton output. In stea, you can easily get
-this by starting steam from a terminal.
+Then your best bet is to read the proton output. In both lutris and steam, you can easily get
+this by starting lutris or steam from a terminal.
 
 If you can't find an issue, or found a solution for one, please discuss it in
 the [proton issue](https://github.com/ValveSoftware/Proton/issues/1722)
 
-### Crash on F10
-
-If you press F10, by default the binding to bring up the map, the game will
-crash ("permanently" on steam, see fixing steam permanent crashing for a fix).
-Luckily, the problem is with the F10 key itself, not the map, so rebind it to
-something else you see fit. The same applies for the communication menu
-
-
-### White smoke renders weirdly
+### White smoke and some other particles renders weirdly
 
 This is a long standing issue, most likely related to texture loading. Luckily
 it is just a visual artefact that can be (largely) ignored
 
 
-### F16 RWR shows a opaque contact on the RWR
+### F16 RWR shows a opaque square on the RWR over the priority contact
 
-This is likely caused by the symbol indicating lock-on being broken. No fix is
-known
+This issue occurs because some textures fail to load for an unknown reason. The
+fix is simple: open the file
+`${INSTALL_DIR}/Mods/aircraft/F-16C/Cockpit/IndicationResources/RWR/indication_RWR.tga`
+with an image editor (gimp or krita have been used successfully), then just
+re-export the file. Now the RWR should render correctly
 
-### Running SRS
-
-[SRS](http://dcssimpleradio.com/) is used by a lot of multiplayer servers. It
-too works with some tweaks
-
-Install the game plugin by following the instructions in the SRS readme.
-
-*Note* As of SRS 19.0.1, this method no longer works. As a replacement, I have
-a custom SRS client that *kind of* works here https://gitlab.com/TheZoq2/srsrs.
-
-It's easiest to run SRS in its own prefix. Create one, and then run `winetricks
-dotnet452 win10` in that prefix. Now you can start `SR-ClientRadio.exe` from
-the downloaded files.
-
-Credit: https://github.com/ciribob/DCS-SimpleRadioStandalone/issues/409.
-
-### Module disabled by user
-
-You probably won't run into this, but if you do, there is a fix.
-
-One of your modules is missing, it is not shown in the list at the bottom of
-the main menu, and you can't use it. On standalone, check if it is enabled in
-the module manager. On steam however, things are a bit more tricky. If you
-copied your configs between standalone and steam, module manager disabled mods
-will be disabled in steam too. This information is stored in
-`$CONFIG_DIR/enabled.lua` or something similar. Remove it to fix the issues
 
 ### Missing multiplayer server list
 
@@ -169,7 +124,85 @@ server list is still broken. Luckily, a server list is available if you log in
 on https://www.digitalcombatsimulator.com/, and from there you can get the IP
 of servers.
 
+### Crash on F10
+
+For many DCS versoins and or wine versions, if you press F10, by default the
+binding to bring up the map, the game will crash ("permanently" on steam, see
+fixing steam permanent crashing for a fix).  Luckily, the problem is with the
+F10 key itself, not the map, so rebind it to something else you see fit. The
+same applies for the communication menu
+
+### Module disabled by user
+
+You probably won't run into this, but if you do, there is a fix.
+
+One of your modules is missing, it is not shown in the list at the bottom of
+the main menu, and you can't use it. On standalone, check if it is enabled in
+the module manager. On steam however, things are a bit more tricky. If you
+copied your configs between standalone and steam, module manager disabled mods
+will be disabled in steam too. This information is stored in
+`$CONFIG_DIR/enabled.lua` or something similar. Remove it to fix the issues
 
 
 
+## Other software
 
+While not included in DCS, here are some resources for getting external
+software often used by the game running.
+
+### SRS
+
+[SRS](http://dcssimpleradio.com/) is used by a lot of multiplayer servers. It
+too works with some tweaks
+
+Install the game plugin by following the instructions in the SRS readme.
+
+*Note* As of SRS 19.0.1, this method no longer works. As a replacement, I have
+a custom SRS client that *kind of* works here https://gitlab.com/TheZoq2/srsrs.
+
+It's easiest to run SRS in its own prefix. Create one, and then run `winetricks
+dotnet452 win10` in that prefix. Now you can start `SR-ClientRadio.exe` from
+the downloaded files.
+
+Credit: https://github.com/ciribob/DCS-SimpleRadioStandalone/issues/409.
+
+
+### Headtracking via opentrack
+
+Opentrack can emulate a gamepad which is read and can be mapped to the
+corresponding controls in the game. This should work out of the box, simply
+select `lubudev joystick receiver` as the output in opentrack.
+
+It is also possible to use opentrack using the freetrack protocol. Credit to @akp  for writing this.
+This Doesn't
+require you to bind headtracking for every aircraft and works well with other
+games that do not support binding axes to head movement.
+
+https://github.com/opentrack/opentrack Opentrack works out of the box with
+libevdev joystick output, however this requires you to bind headtracking for
+every aircraft (and doesn't play well with Il-2 BoX or Falcon BMS).
+
+A better option is to enable wine (freetrack and npclient) output instead of
+joystick axis output.
+
+https://aur.archlinux.org/packages/opentrack/ If you are building opentrack
+from the AUR, you can modify the PKGBUILD.  Replace line 34
+`-DSDK_WINE_PREFIX=/ \` with `-DSDK_WINE=ON/ \`
+
+Otherwise, download the source code from the github and follow these
+instructions: https://github.com/opentrack/opentrack/wiki/Building-on-Linux
+**After you cd into the directory, run `ccmake .`, press c to configure, turn
+ON SDK_WINE, c to configure and g to generate.**
+
+DCS still requires `HeadTracker.dll` in the bin directory for opentrack to
+function.  Download Eagle Dynamics API interface DLL (64-bit) from
+http://facetracknoir.sourceforge.net/information_links/download.htm
+
+You must open opentrack and start tracking before you launch DCS. Be sure to
+point the output to the correct wine/proton prefix. In addition, you'll need to
+launch DCS with WINEESYNC=1 or WINEFSYNC=1 if you enable those in the wine
+output settings.
+
+![Screenshot_20201222_001754](https://user-images.githubusercontent.com/10890625/102798194-b5b75a80-43eb-11eb-843c-90ef83a1c170.png)
+
+Context: https://github.com/ValveSoftware/Proton/issues/1722#issuecomment-749061952
