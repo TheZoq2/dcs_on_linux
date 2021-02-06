@@ -32,7 +32,7 @@ Start the game once first to create the prefix, then run
 <tricks command> vcrun2017 corefonts xact d3dcompiler_43
 ```
 
-This should be all it takes to get standalone working/
+This should be all it takes to get standalone working.
 
 ### Fixing Steam version permanent crashing
 
