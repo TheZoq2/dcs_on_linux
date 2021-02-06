@@ -206,3 +206,23 @@ output settings.
 ![Screenshot_20201222_001754](https://user-images.githubusercontent.com/10890625/102798194-b5b75a80-43eb-11eb-843c-90ef83a1c170.png)
 
 Context: https://github.com/ValveSoftware/Proton/issues/1722#issuecomment-749061952
+
+### Headtracking via Linuxtrack
+
+In the case the Opentrack fails to work (@bradley-r observed that running Opentrack's
+Wine plugin prevented DCS from launching - likely due to the sharing of the same 
+prefix) or you wish to try an alternative, Linuxtrack (https://github.com/uglyDwarf/linuxtrack/) 
+offers similar functionality. 
+
+Begin by installing the universal Linux package (https://github.com/uglyDwarf/linuxtrack/wiki/universal-Linuxtrack-package).
+Once complete, run `ltr-gui` and under the 'Misc' tab, select (re)install TrackIR firmware.) Linuxtrack
+will attempt to complete this task for you, but, at time of writing, the TrackIR download links have changed, so
+you may need to do this manually. Download the latest TrackIR firmware, install it to your default (or
+temporary) prefix, then select 'Extract from unpacked'. Navigate to the prefix you used, and select the
+TrackIR 5 folder under `/drive_c/Program Files (x86)/NaturalPoint/`. Once done, you will be prompted to
+install the Wine-side components; select the prefix DCS is installed under (only standalone has been tested.)
+`ltr-gui` can now be closed, and provided Linuxtrack is running (and has been configured), use the `FreeTrackTester.exe` present
+in the second prefix `/drive_c/Program Files (x86)/Linuxtrack/`. You should see the values changing, and thus
+controlling the view in-game.
+
+Note that `HeadTracker.dll` need not be present as Linuxtrack replicates TrackIR directly (in the case of DCS, at least.)
