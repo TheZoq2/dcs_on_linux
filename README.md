@@ -1,22 +1,22 @@
 # DCS on Linux
 
-DCS world can run on linux through wine and proton, though it does take some
+DCS World can run on linux through Wine and Proton, though it does take some
 work to get running. The game has two distribution methods: standalone and
-steam. Both have worked successfully, though often one will be broken and the
-other work, If one fails it can be a good idea to try the other
+Steam. Both have worked successfully, though often one will be broken and the
+other work; if one fails, it can be a good idea to try the other.
 
-The game also has two versions: stable and open beta. Open beta is what is used
+The game also has two versions: stable and open beta. Open beta is used
 by most MP servers, and stable is updated less frequently (the advantage of
-stable for us is that we don't have to work around linux bugs every 2 weeks
-when a new OB is released)
+stable for us being that we don't have to work around Linux bugs every 2 weeks
+when a new OB is released.)
 
 Thanks to everyone who has helped getting the game running and debugging issues
 in the [proton issue
 tracker](https://github.com/ValveSoftware/Proton/issues/1722). Unfortunately,
-workarounds easily get burried there, so I decided to create this document with
-known up to date methods for getting things to work.
+workarounds easily get buried there, so I decided to create this document with
+known, up-to-date methods for getting things to work.
 
-## Getting it working through lutris
+## Getting it working through Lutris
 
 An easy way to get started is to use Lutris. Standalone has two install scripts
 on lutris which may just work out of the box:
@@ -25,18 +25,18 @@ https://lutris.net/games/dcs-world/
 ## Getting it working manually
 
 Both versions need some winetricks applied. For standalone, use `winetricks`,
-for proton use `protontricks 223750`
+for proton use `protontricks 223750`.
 
 Start the game once first to create the prefix, then run
 ```
 <tricks command> vcrun2017 corefonts xact d3dcompiler_43
 ```
 
-This should be all it takes to get standalone working
+This should be all it takes to get standalone working/
 
 ### Fixing Steam version permanent crashing
 
-If your game crashes in the steam version, it will permanently fail to start
+If your game crashes in the Steam version, it will permanently fail to start
 after that. To fix that: remove `drive_c/windows/system32/lsteamclient.dll`
 which was created in the crash, and the game should start back up fine.
 
@@ -44,34 +44,34 @@ which was created in the crash, and the game should start back up fine.
 ### Open Beta (updated for 2.5.6.59398)
 
 For now, this guide assumes you use the standalone version. The steam version
-may also work, but I have not tested it in a while. Currently, wine 6.0 rc1 or
-the lutris version of that release are what work best but other wine versions
+may also work, but I have not tested it in a while. Currently, Wine 6.0 rc1 or
+the Lutris version of that release are what work best but other wine versions
 may also work.
 
 First, some variables to avoid repetition:
 
 - `$USERNAME`: refers to the wine user. On standalone, this is your normal
-  username and on steam it is `steamuser`
+  username and on steam it is `steamuser`.
 - `$INSTALL_DIR`: the location in program files where the game is installed.
-  On standalone: `drive_c/Program Files/Eagle Dynamics/DCS`. or `DCS World OpenBeta` On steam, it's
+  On standalone: `drive_c/Program Files/Eagle Dynamics/DCS` or `DCS World OpenBeta`. On Steam, it's
   `/home/frans/.local/share/Steam/steamapps/common/DCSWorld`
 - `$CONFIG_DIR`: the place where user config stuff is stored
-  `drive_c/users/$USERNAME/Saved Games/DCS<possibly openbeta>`
-- `$LOG`: the game log file `$CONFIG_DIR/Logs/dcs.log`
+  `drive_c/users/$USERNAME/Saved Games/DCS<possibly openbeta>`.
+- `$LOG`: the game log file `$CONFIG_DIR/Logs/dcs.log`.
 
-For standalone, if the game crashes before showing the login screen. You need
-to add a "dll override" for `wbemprox`. In lutris, you can do so under "runner
-options". For wine and steam proton, you can do so using the `WINEDLLOVERRIDES`
+For standalone, if the game crashes before showing the login screen, you need
+to add a "DLL override" for `wbemprox`. In Lutris, you can do so under "runner
+options". For Wine and Steam Proton, you can do so using the `WINEDLLOVERRIDES`
 flag https://wiki.winehq.org/Wine_User's_Guide#WINEDLLOVERRIDES.3DDLL_Overrides
 
 With that change, you should be able to log in but once the game starts you
 will see a black screen. To fix this, create a symlink from
-`$INSTALL_DIR/bin/webrtc_plugin.dll` to `$INSTALL_dir/webrtc_plugin.dll`
+`$INSTALL_DIR/bin/webrtc_plugin.dll` to `$INSTALL_dir/webrtc_plugin.dll`.
 
-The game should now start
+The game should now start.
 
 You may also see a crash when loading a mission. This might be caused by a
-Arial missing font which can not be distributed with wine.
+Arial missing font which can not be distributed with Wine.
 
 ## Known issues and fixes
 
@@ -81,16 +81,16 @@ After crashes, the crash reporter will spam a bit about various DLLs being used
 recently, and just before that, the cause of the crash should be visible.
 
 Sometimes crashes happen before the game gets far enough to create a log file.
-Then your best bet is to read the proton output. In both lutris and steam, you can easily get
-this by starting lutris or steam from a terminal.
+Then your best bet is to read the Proton output. In both Lutris and Steam, you can easily get
+this by starting them from a terminal.
 
 If you can't find an issue, or found a solution for one, please discuss it in
-the [proton issue](https://github.com/ValveSoftware/Proton/issues/1722)
+the [proton issue](https://github.com/ValveSoftware/Proton/issues/1722).
 
 ### White smoke and some other particles renders weirdly
 
-This is a long standing issue, most likely related to texture loading. Luckily
-it is just a visual artefact that can be (largely) ignored
+This is a long standing issue, most likely related to texture loading and tesselation. 
+Luckily, it is just a visual artefact that can be (largely) ignored.
 
 
 ### F16 RWR shows a opaque square on the RWR over the priority contact
@@ -98,9 +98,8 @@ it is just a visual artefact that can be (largely) ignored
 This issue occurs because some textures fail to load for an unknown reason. The
 fix is simple: open the file
 `${INSTALL_DIR}/Mods/aircraft/F-16C/Cockpit/IndicationResources/RWR/indication_RWR.tga`
-with an image editor (gimp or krita have been used successfully), then just
-re-export the file. Now the RWR should render correctly
-
+with an image editor (GIMP or Krita have been used successfully), then just
+re-export the file. The RWR should now render correctly.
 
 ### Missing multiplayer server list
 
@@ -126,11 +125,11 @@ of servers.
 
 ### Crash on F10
 
-For many DCS versoins and or wine versions, if you press F10, by default the
-binding to bring up the map, the game will crash ("permanently" on steam, see
-fixing steam permanent crashing for a fix).  Luckily, the problem is with the
+For many DCS versions and/or Wine versions, if you press F10  (the default
+binding to bring up the map) the game will crash ("permanently" on steam, see
+fixing steam permanent crashing (above) for a fix).  Luckily, the problem is with the
 F10 key itself, not the map, so rebind it to something else you see fit. The
-same applies for the communication menu
+same applies for the communication menu.
 
 ### Module disabled by user
 
@@ -141,7 +140,7 @@ the main menu, and you can't use it. On standalone, check if it is enabled in
 the module manager. On steam however, things are a bit more tricky. If you
 copied your configs between standalone and steam, module manager disabled mods
 will be disabled in steam too. This information is stored in
-`$CONFIG_DIR/enabled.lua` or something similar. Remove it to fix the issues
+`$CONFIG_DIR/enabled.lua` or something similar. Remove it to fix the issues.
 
 
 
@@ -153,7 +152,7 @@ software often used by the game running.
 ### SRS
 
 [SRS](http://dcssimpleradio.com/) is used by a lot of multiplayer servers. It
-too works with some tweaks
+too works with some tweaks.
 
 Install the game plugin by following the instructions in the SRS readme.
 
