@@ -41,9 +41,9 @@ of the Opentrack instructions, and @bradley-r for the Linuxtrack, Scratchpad and
 
 ### Getting it working through Lutris
 
-An easy way to get started is to use Lutris. There are two install scripts
-for standalone on Lutris which may just work out of the box:
-https://lutris.net/games/dcs-world/
+An easy way to get started is to use Lutris. There are [two install scripts
+for standalone](https://lutris.net/games/dcs-world/) on Lutris which may just work out of the box.
+Much of this guide has been tested to work successfully with the `Eagle Dynamics version`.
 
 ### Getting it working manually
 
@@ -176,7 +176,7 @@ too works with some tweaks.
 Install the game plugin by following the instructions in the SRS readme.
 
 *Note* As of SRS 19.0.1, this method no longer works. As a replacement, I have
-a custom SRS client that *kind of* works here https://gitlab.com/TheZoq2/srsrs.
+a custom SRS client that *kind of* works here: https://gitlab.com/TheZoq2/srsrs.
 
 It's easiest to run SRS in its own prefix. Create one, and then run `winetricks
 dotnet452 win10` in that prefix. Now you can start `SR-ClientRadio.exe` from
