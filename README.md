@@ -5,7 +5,7 @@ work to get running. The game has two distribution methods: standalone and
 Steam. Both have worked successfully, though often one will be broken and the
 other work; if one fails, it can be a good idea to try the other.
 
-The game also has two versions: stable and open beta. Open beta is used
+The game also has two versions: stable and OpenBeta. OpenBeta is used
 by most MP servers, and stable is updated less frequently (the advantage of
 stable for us being that we don't have to work around Linux bugs every 2 weeks
 when a new OB is released.)
@@ -208,7 +208,7 @@ select `lubudev joystick receiver` as the output in opentrack.
 Opentrack can work out of the box with `libevdev joystick output`, however this requires you to bind headtracking
 for every aircraft (and doesn't play well with Il-2 BoX or Falcon BMS.)
 
-A better option, then, is to enable Wine (freetrack and npclient) output instead of joystick axis output. This allows
+A better option, then, is to enable Wine (Freetrack and NPclient) output instead of joystick axis output. This allows
 the use of headtracking across all aircraft (DCS interprets the input as an actual headtracker rather than joystick), and
 should play well with other titles such as IL-2 BoX and Falcon BMS.
 
@@ -259,4 +259,4 @@ Note that `HeadTracker.dll` need not be present as Linuxtrack replicates TrackIR
 
 This only applies if an IR-modified camera is used as input to your headtracking program of choice, but can be very useful if so. Video4Linux(2) "*is a collection of device drivers and an API for supporting realtime video capture on Linux systems*" and thus is the utility used by Opentrack and Linuxtrack to address IR cameras - often the venerable PS3Eye. V4L2 handles the configuration of attached cameras, and so is the utility to use to change any settings.
 
-For IR-modded cameras, the settings of most significance are gain, auto-exposure and (automatic) white balance. The PS3Eye, not having any physical controls aside from an FOV setting, can be configured using the V4L2 test utility ([`v4l-utils`](https://pkgs.org/download/v4l-utils)), however changes made here do not persist across reboots. Opentrack has this configuration utility built-in, but for Linuxtrack users or those needing to change camera settings system-wide, there is a solution. Do the following: 
+For IR-modded cameras, the settings of most significance are gain, auto-exposure and (automatic) white balance. The PS3Eye, not having any physical controls aside from an FOV setting, can be configured using the V4L2 test utility ([`v4l-utils`](https://pkgs.org/download/v4l-utils)), however changes made here do not persist across reboots. Opentrack has this configuration utility built-in, but for Linuxtrack users or those needing to change camera settings system-wide, there is a solution. Complete the following: 
