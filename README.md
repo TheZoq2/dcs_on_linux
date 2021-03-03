@@ -29,6 +29,7 @@ known, up-to-date methods for getting things to work.
       * [Disabled Modules](#module-disabled-by-user)
    * [Additional Software](#other-software)
       * [SRS](#srs)
+      * [Scratchpad](#dcs-scratchpad)
       * [Opentrack](#headtracking-via-opentrack)
       * [Linuxtrack](#headtracking-via-linuxtrack)
       * [V4L2](#a-note-on-headtracking)
@@ -184,6 +185,10 @@ the downloaded files.
 
 Credit: https://github.com/ciribob/DCS-SimpleRadioStandalone/issues/409.
 
+### DCS Scratchpad
+
+For those who want to make use of the excellent [DCS-Scratchpad utility](https://github.com/rkusa/dcs-scratchpad), 
+[follow the installation instructions](https://github.com/rkusa/dcs-scratchpad) as normal. The scratchpad should appear in game, but when typing with it's '*window*' focused, nothing will appear. This is a font issue - by default, DCS-Scratchpad uses `CONSOLA.TTF`, a font not installed with Wine. Edit line 172 in `Scripts/Scratchpad/ScratchpadWindow.dlg` to an installed font of your choosing, such as `CALIBRI.TTF`. Text should now appear in the scratchpad window. 
 
 ### Headtracking via Opentrack
 
@@ -198,7 +203,7 @@ games that do not support binding axes to head movement.
 
 https://github.com/opentrack/opentrack Opentrack works out of the box with
 libevdev joystick output, however this requires you to bind headtracking for
-every aircraft (and doesn't play well with Il-2 BoX or Falcon BMS).
+every aircraft (and doesn't play well with Il-2 BoX or Falcon BMS.)
 
 A better option is to enable wine (freetrack and npclient) output instead of
 joystick axis output.
