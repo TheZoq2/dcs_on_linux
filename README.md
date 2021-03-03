@@ -16,6 +16,9 @@ tracker](https://github.com/ValveSoftware/Proton/issues/1722). Unfortunately,
 workarounds easily get buried there, so I decided to create this document with
 known, up-to-date methods for getting things to work.
 
+Outside the proton thread, additional credit goes to @akp for the initial revision
+of the Opentrack instructions, and @bradley-r for the Linuxtrack, Scratchpad and V4L2 info.
+
 ## Contents
 
    * [Installation](#installation)
@@ -60,7 +63,6 @@ If your game crashes in the Steam version, it will permanently fail to start
 after that. To fix that: remove `drive_c/windows/system32/lsteamclient.dll`
 which was created in the crash, and the game should start back up fine.
 
-
 #### Open Beta (updated for 2.5.6.59398)
 
 For now, this guide assumes you use the standalone version. The steam version
@@ -82,7 +84,7 @@ First, some variables to avoid repetition:
 For standalone, if the game crashes before showing the login screen, you need
 to add a "DLL override" for `wbemprox`. In Lutris, you can do so under "runner
 options". For Wine and Steam Proton, you can do so using the `WINEDLLOVERRIDES`
-flag https://wiki.winehq.org/Wine_User's_Guide#WINEDLLOVERRIDES.3DDLL_Overrides
+flag: https://wiki.winehq.org/Wine_User's_Guide#WINEDLLOVERRIDES.3DDLL_Overrides.
 
 With that change, you should be able to log in but once the game starts you
 will see a black screen. To fix this, create a symlink from
@@ -111,7 +113,6 @@ the [proton issue](https://github.com/ValveSoftware/Proton/issues/1722).
 
 This is a long standing issue, most likely related to texture loading and tesselation. 
 Luckily, it is just a visual artefact that can be (largely) ignored.
-
 
 ### F16 RWR shows a opaque square on the RWR over the priority contact
 
@@ -162,12 +163,10 @@ copied your configs between standalone and steam, module manager disabled mods
 will be disabled in steam too. This information is stored in
 `$CONFIG_DIR/enabled.lua` or something similar. Remove it to fix the issues.
 
-
-
 ## Other software
 
 While not included in DCS, here are some resources for getting external
-software often used by the game running.
+software often used with the game.
 
 ### SRS
 
@@ -188,38 +187,42 @@ Credit: https://github.com/ciribob/DCS-SimpleRadioStandalone/issues/409.
 ### DCS Scratchpad
 
 For those who want to make use of the excellent [DCS-Scratchpad utility](https://github.com/rkusa/dcs-scratchpad), 
-[follow the installation instructions](https://github.com/rkusa/dcs-scratchpad) as normal. The scratchpad should appear in game, but when typing with it's '*window*' focused, nothing will appear. This is a font issue - by default, DCS-Scratchpad uses `CONSOLA.TTF`, a font not installed with Wine. Edit line 172 in `Scripts/Scratchpad/ScratchpadWindow.dlg` to an installed font of your choosing, such as `CALIBRI.TTF`. Text should now appear in the scratchpad window. 
+[follow the installation instructions](https://github.com/rkusa/dcs-scratchpad) as normal. 
+The scratchpad should appear in game, but when typing with it's '*window*' focused, nothing will appear. 
+This is a font issue - by default, DCS-Scratchpad uses `CONSOLA.TTF`, a font not installed with Wine. 
+Edit line 172 in `Scripts/Scratchpad/ScratchpadWindow.dlg` to an installed font of your choosing, such as `CALIBRI.TTF`.
+Text should now appear in the scratchpad window. 
 
 ### Headtracking via Opentrack
 
-Opentrack can emulate a gamepad which is read and can be mapped to the
+**Users of custom/Lutris/non-system Wine versions, take note: 
+Due to [issues with libwine](https://github.com/opentrack/opentrack/issues/1236), Opentrack does not support prefixes using versions of Wine
+different to that of the system (and thus the one Opentrack recognises), making usage of
+custom/performance-enhanced Wine versions impossible alongside it. Either run DCS with your
+system Wine, or try Linuxtrack instead. Proton is unaffected.**
+
+[Opentrack](https://github.com/opentrack/opentrack) can emulate a gamepad which is read and can be mapped to the
 corresponding controls in the game. This should work out of the box, simply
 select `lubudev joystick receiver` as the output in opentrack.
 
-It is also possible to use opentrack using the freetrack protocol. Credit to @akp  for writing this.
-This Doesn't
-require you to bind headtracking for every aircraft and works well with other
-games that do not support binding axes to head movement.
+Opentrack can work out of the box with `libevdev joystick output`, however this requires you to bind headtracking
+for every aircraft (and doesn't play well with Il-2 BoX or Falcon BMS.)
 
-https://github.com/opentrack/opentrack Opentrack works out of the box with
-libevdev joystick output, however this requires you to bind headtracking for
-every aircraft (and doesn't play well with Il-2 BoX or Falcon BMS.)
+A better option, then, is to enable Wine (freetrack and npclient) output instead of joystick axis output. This allows
+the use of headtracking across all aircraft (DCS interprets the input as an actual headtracker rather than joystick), and
+should play well with other titles such as IL-2 BoX and Falcon BMS.
 
-A better option is to enable wine (freetrack and npclient) output instead of
-joystick axis output.
+If you are building Opentrack from the [AUR](https://aur.archlinux.org/packages/opentrack/), you can modify the PKGBUILD.
+Replace line 34: `-DSDK_WINE_PREFIX=/ \` with `-DSDK_WINE=ON/ \`. *This package now seems to include Wine output by default.*
 
-https://aur.archlinux.org/packages/opentrack/ If you are building opentrack
-from the AUR, you can modify the PKGBUILD.  Replace line 34
-`-DSDK_WINE_PREFIX=/ \` with `-DSDK_WINE=ON/ \`
-
-Otherwise, download the source code from the github and follow these
-instructions: https://github.com/opentrack/opentrack/wiki/Building-on-Linux
+Otherwise, you can clone the source code and follow [these
+instructions](https://github.com/opentrack/opentrack/wiki/Building-on-Linux).
 **After you cd into the directory, run `ccmake .`, press c to configure, turn
 ON SDK_WINE, c to configure and g to generate.**
 
-DCS still requires `HeadTracker.dll` in the bin directory for opentrack to
+DCS still requires `HeadTracker.dll` in the `bin` directory for opentrack to
 function.  Download Eagle Dynamics API interface DLL (64-bit) from
-http://facetracknoir.sourceforge.net/information_links/download.htm
+http://facetracknoir.sourceforge.net/information_links/download.htm.
 
 You must open opentrack and start tracking before you launch DCS. Be sure to
 point the output to the correct wine/proton prefix. In addition, you'll need to
@@ -232,10 +235,8 @@ Context: https://github.com/ValveSoftware/Proton/issues/1722#issuecomment-749061
 
 ### Headtracking via Linuxtrack
 
-In the case the Opentrack fails to work (@bradley-r observed that running Opentrack's
-Wine plugin prevented DCS from launching - likely due to the sharing of the same 
-prefix) or you wish to try an alternative, Linuxtrack (https://github.com/uglyDwarf/linuxtrack/) 
-offers similar functionality. 
+In the case the Opentrack fails to work (as outlined above, it cannot support custom Wine versions
+such as those offered by Lutris) or you wish to try an alternative, Linuxtrack (https://github.com/uglyDwarf/linuxtrack/) offers similar functionality. 
 
 Begin by installing the universal Linux package (https://github.com/uglyDwarf/linuxtrack/wiki/universal-Linuxtrack-package).
 Once complete, run `ltr-gui` and under the 'Misc' tab, select (re)install TrackIR firmware.) Linuxtrack
