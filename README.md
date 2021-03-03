@@ -43,7 +43,7 @@ of the Opentrack instructions, and @bradley-r for the Linuxtrack, Scratchpad and
 
 An easy way to get started is to use Lutris. There are [two install scripts
 for standalone](https://lutris.net/games/dcs-world/) on Lutris which may just work out of the box.
-Much of this guide has been tested to work successfully with the `Eagle Dynamics version`.
+Much of this guide has been tested to work successfully with the 'Eagle Dynamics version'.
 
 ### Getting it working manually
 
