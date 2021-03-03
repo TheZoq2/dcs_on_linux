@@ -16,13 +16,32 @@ tracker](https://github.com/ValveSoftware/Proton/issues/1722). Unfortunately,
 workarounds easily get buried there, so I decided to create this document with
 known, up-to-date methods for getting things to work.
 
-## Getting it working through Lutris
+## Contents
 
-An easy way to get started is to use Lutris. Standalone has two install scripts
-on lutris which may just work out of the box:
+   * [Installation](#installation)
+      * [Lutris](#getting-it-working-through-lutris)
+      * [Manual](#getting-it-working-manually)
+   * [Bugs and Fixes](#known-issues-and-fixes)
+      * [Smoke](#white-smoke-and-some-other-particles-renders-weirdly)
+      * [F16 RWR](#f16-rwr-shows-a-opaque-square-on-the-rwr-over-the-priority-contact)
+      * [Server List](#missing-multiplayer-server-list)
+      * [F10 Crash](#crash-on-f10)
+      * [Disabled Modules](#module-disabled-by-user)
+   * [Additional Software](#other-software)
+      * [SRS](#srs)
+      * [Opentrack](#headtracking-via-opentrack)
+      * [Linuxtrack](#headtracking-via-linuxtrack)
+      * [V4L2](#a-note-on-headtracking)
+
+## Installation
+
+### Getting it working through Lutris
+
+An easy way to get started is to use Lutris. There are two install scripts
+for standalone on Lutris which may just work out of the box:
 https://lutris.net/games/dcs-world/
 
-## Getting it working manually
+### Getting it working manually
 
 Both versions need some winetricks applied. For standalone, use `winetricks`,
 for proton use `protontricks 223750`.
@@ -34,14 +53,14 @@ Start the game once first to create the prefix, then run
 
 This should be all it takes to get standalone working.
 
-### Fixing Steam version permanent crashing
+#### Fixing Steam version permanent crashing
 
 If your game crashes in the Steam version, it will permanently fail to start
 after that. To fix that: remove `drive_c/windows/system32/lsteamclient.dll`
 which was created in the crash, and the game should start back up fine.
 
 
-### Open Beta (updated for 2.5.6.59398)
+#### Open Beta (updated for 2.5.6.59398)
 
 For now, this guide assumes you use the standalone version. The steam version
 may also work, but I have not tested it in a while. Currently, Wine 6.0 rc1 or
@@ -166,7 +185,7 @@ the downloaded files.
 Credit: https://github.com/ciribob/DCS-SimpleRadioStandalone/issues/409.
 
 
-### Headtracking via opentrack
+### Headtracking via Opentrack
 
 Opentrack can emulate a gamepad which is read and can be mapped to the
 corresponding controls in the game. This should work out of the box, simply
@@ -229,3 +248,9 @@ Once done, you will be prompted to install the Wine-side components; select the 
 ![img2](https://user-images.githubusercontent.com/43189454/107122784-b029ad00-6891-11eb-8e0b-41d06e706e6d.png)
 
 Note that `HeadTracker.dll` need not be present as Linuxtrack replicates TrackIR directly (in the case of DCS, at least.)
+
+### A note on headtracking
+
+This only applies if an IR-modified camera is used as input to your headtracking program of choice, but can be very useful if so. Video4Linux(2) "*is a collection of device drivers and an API for supporting realtime video capture on Linux systems*" and thus is the utility used by Opentrack and Linuxtrack to address IR cameras - often the venerable PS3Eye. V4L2 handles the configuration of attached cameras, and so is the utility to use to change any settings.
+
+For IR-modded cameras, the settings of most significance are gain, auto-exposure and (automatic) white balance. The PS3Eye, not having any physical controls aside from an FOV setting, can be configured using the V4L2 test utility ([`v4l-utils`](https://pkgs.org/download/v4l-utils)), however changes made here do not persist across reboots. Opentrack has this configuration utility built-in, but for Linuxtrack users or those needing to change camera settings system-wide, there is a solution. Do the following: 
