@@ -236,7 +236,7 @@ point the output to the correct wine/proton prefix. In addition, you'll need to
 launch DCS with WINEESYNC=1 or WINEFSYNC=1 if you enable those in the wine
 output settings.
 
-![Screenshot_20201222_001754](https://user-images.githubusercontent.com/10890625/102798194-b5b75a80-43eb-11eb-843c-90ef83a1c170.png)
+![Opentrack Wine Implementation](images/opentrackwine.png)
 
 Context: https://github.com/ValveSoftware/Proton/issues/1722#issuecomment-749061952
 
@@ -252,7 +252,7 @@ will attempt to complete this task for you, but, at time of writing, the TrackIR
 you may need to do this manually. Download the latest TrackIR firmware, install it to your default (or
 temporary) prefix, then select 'Extract from unpacked'.
 
-![img1](https://user-images.githubusercontent.com/43189454/107122801-ccc5e500-6891-11eb-9a71-6c2a89fdf3f1.png)
+![Linuxtrack Firmware Extractor](images/linuxtrackextractor.png)
 
 Navigate to the prefix you used, and select the TrackIR 5 folder under `/drive_c/Program Files (x86)/NaturalPoint/`. 
 Once done, you will be prompted to install the Wine-side components; select the prefix DCS is installed under
@@ -260,7 +260,7 @@ Once done, you will be prompted to install the Wine-side components; select the 
 (and has been configured), use the `FreeTrackTester.exe` present in the second prefix `/drive_c/Program Files 
 (x86)/Linuxtrack/`. You should see the values changing, and thus controlling the view in-game.
 
-![img2](https://user-images.githubusercontent.com/43189454/107122784-b029ad00-6891-11eb-8e0b-41d06e706e6d.png)
+![Linuxtrack/Freetrack Test Dialogue](images/linuxtrackfreetracktest.png)
 
 Note that `HeadTracker.dll` need not be present as Linuxtrack replicates TrackIR directly (in the case of DCS, at least.)
 
