@@ -98,7 +98,7 @@ Arial missing font which can not be distributed with Wine.
 
 ## Known issues and fixes
 
-If things go wrong, the primary thing to look for is the game log
+If things go wrong, the primary thing to look for is the game log - 
 `drive_c/users/$USERNAME/Saved Games/DCS<possibly openbeta>/Logs/dcs.log`.
 After crashes, the crash reporter will spam a bit about various DLLs being used
 recently, and just before that, the cause of the crash should be visible.
@@ -107,7 +107,7 @@ Sometimes crashes happen before the game gets far enough to create a log file.
 Then your best bet is to read the Proton output. In both Lutris and Steam, you can easily get
 this by starting them from a terminal.
 
-If you can't find an issue, or found a solution for one, please discuss it in
+If you can't find an issue, or have found a solution for one, please discuss it in
 the [proton issue](https://github.com/ValveSoftware/Proton/issues/1722).
 
 ### White smoke and some other particles renders weirdly
@@ -147,7 +147,7 @@ of servers.
 
 ### Crash on F10
 
-For many DCS versions and/or Wine versions, if you press F10  (the default
+For many DCS versions and/or Wine versions, if you press F10 (the default
 binding to bring up the map) the game will crash ("permanently" on steam, see
 fixing steam permanent crashing (above) for a fix).  Luckily, the problem is with the
 F10 key itself, not the map, so rebind it to something else you see fit. The
@@ -236,7 +236,7 @@ point the output to the correct wine/proton prefix. In addition, you'll need to
 launch DCS with WINEESYNC=1 or WINEFSYNC=1 if you enable those in the wine
 output settings.
 
-![Opentrack Wine Implementation](images/opentrackwine.png)
+![Opentrack Wine Implementation](/images/opentrackwine.png)
 
 Context: https://github.com/ValveSoftware/Proton/issues/1722#issuecomment-749061952
 
@@ -252,7 +252,7 @@ will attempt to complete this task for you, but, at time of writing, the TrackIR
 you may need to do this manually. Download the latest TrackIR firmware, install it to your default (or
 temporary) prefix, then select 'Extract from unpacked'.
 
-![Linuxtrack Firmware Extractor](images/linuxtrackextractor.png)
+![Linuxtrack Firmware Extractor](/images/linuxtrackextractor.png)
 
 Navigate to the prefix you used, and select the TrackIR 5 folder under `/drive_c/Program Files (x86)/NaturalPoint/`. 
 Once done, you will be prompted to install the Wine-side components; select the prefix DCS is installed under
@@ -260,7 +260,7 @@ Once done, you will be prompted to install the Wine-side components; select the 
 (and has been configured), use the `FreeTrackTester.exe` present in the second prefix `/drive_c/Program Files 
 (x86)/Linuxtrack/`. You should see the values changing, and thus controlling the view in-game.
 
-![Linuxtrack/Freetrack Test Dialogue](images/linuxtrackfreetracktest.png)
+![Linuxtrack/Freetrack Test Dialogue](/images/linuxtrackfreetracktest.png)
 
 Note that `HeadTracker.dll` need not be present as Linuxtrack replicates TrackIR directly (in the case of DCS, at least.)
 
@@ -271,7 +271,7 @@ so. Video4Linux(2) "*is a collection of device drivers and an API for supporting
 and thus is the utility used by Opentrack and Linuxtrack to address IR cameras - often the venerable PS3Eye. V4L2 handles the 
 configuration of attached cameras, and so is the utility to use to change any settings.
 
-![QV4L2 Test Dialogue](images/V4L2test.png)
+![QV4L2 Test Dialogue](/images/V4L2test.png)
 
 For IR-modded cameras, the settings of most significance are gain, auto-exposure and (automatic) white balance. The PS3Eye, 
 not having any physical controls aside from an FOV setting, can be configured using the V4L2 test utility ([`v4l-utils`](https://pkgs.org/download/v4l-utils)), 
