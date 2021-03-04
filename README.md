@@ -167,7 +167,7 @@ will be disabled in steam too. This information is stored in
 ### Control issues
 
 Due to the various differences between distributions, issues with (HOTAS) controls can be hard to nail down,
-especially when Wine is involved - adding another layer of potentional problems. Users experiencing issues with their
+especially when Wine is involved - adding another layer of potentional problems. Users experiencing issues with
 controllers are advised to read through [the information here](https://github.com/bradley-r/Linux-Controller-Fixes/).
 
 ## Other software
