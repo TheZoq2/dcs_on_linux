@@ -30,6 +30,7 @@ of the Opentrack instructions, and @bradley-r for the Linuxtrack, Scratchpad and
       * [Server List](#missing-multiplayer-server-list)
       * [F10 Crash](#crash-on-f10)
       * [Disabled Modules](#module-disabled-by-user)
+      * [Controls](#control-issues)
    * [Additional Software](#other-software)
       * [SRS](#srs)
       * [Scratchpad](#dcs-scratchpad)
@@ -163,6 +164,12 @@ copied your configs between standalone and steam, module manager disabled mods
 will be disabled in steam too. This information is stored in
 `$CONFIG_DIR/enabled.lua` or something similar. Remove it to fix the issues.
 
+### Control issues
+
+Due to the various differences between distributions, issues with (HOTAS) controls can be hard to nail down,
+especially when Wine is involved - adding another layer of potentional problems. Users experiencing issues with their
+controllers are advised to read through [the information here](https://github.com/bradley-r/Linux-Controller-Fixes/).
+
 ## Other software
 
 While not included in DCS, here are some resources for getting external
@@ -236,7 +243,8 @@ Context: https://github.com/ValveSoftware/Proton/issues/1722#issuecomment-749061
 ### Headtracking via Linuxtrack
 
 In the case the Opentrack fails to work (as outlined above, it cannot support custom Wine versions
-such as those offered by Lutris) or you wish to try an alternative, Linuxtrack (https://github.com/uglyDwarf/linuxtrack/) offers similar functionality. 
+such as those offered by Lutris) or you wish to try an alternative, Linuxtrack (https://github.com/uglyDwarf/linuxtrack/) 
+offers similar functionality. 
 
 Begin by installing the universal Linux package (https://github.com/uglyDwarf/linuxtrack/wiki/universal-Linuxtrack-package).
 Once complete, run `ltr-gui` and under the 'Misc' tab, select (re)install TrackIR firmware.) Linuxtrack
@@ -249,7 +257,8 @@ temporary) prefix, then select 'Extract from unpacked'.
 Navigate to the prefix you used, and select the TrackIR 5 folder under `/drive_c/Program Files (x86)/NaturalPoint/`. 
 Once done, you will be prompted to install the Wine-side components; select the prefix DCS is installed under
 (only standalone has been tested.) `ltr-gui` can now be closed, and provided Linuxtrack is running
-(and has been configured), use the `FreeTrackTester.exe` present in the second prefix `/drive_c/Program Files (x86)/Linuxtrack/`. You should see the values changing, and thus controlling the view in-game.
+(and has been configured), use the `FreeTrackTester.exe` present in the second prefix `/drive_c/Program Files 
+(x86)/Linuxtrack/`. You should see the values changing, and thus controlling the view in-game.
 
 ![img2](https://user-images.githubusercontent.com/43189454/107122784-b029ad00-6891-11eb-8e0b-41d06e706e6d.png)
 
@@ -257,6 +266,40 @@ Note that `HeadTracker.dll` need not be present as Linuxtrack replicates TrackIR
 
 ### A note on headtracking
 
-This only applies if an IR-modified camera is used as input to your headtracking program of choice, but can be very useful if so. Video4Linux(2) "*is a collection of device drivers and an API for supporting realtime video capture on Linux systems*" and thus is the utility used by Opentrack and Linuxtrack to address IR cameras - often the venerable PS3Eye. V4L2 handles the configuration of attached cameras, and so is the utility to use to change any settings.
+This only applies if an IR-modified camera is used as input to your headtracking program of choice, but can be very useful if 
+so. Video4Linux(2) "*is a collection of device drivers and an API for supporting realtime video capture on Linux systems*" 
+and thus is the utility used by Opentrack and Linuxtrack to address IR cameras - often the venerable PS3Eye. V4L2 handles the 
+configuration of attached cameras, and so is the utility to use to change any settings.
 
-For IR-modded cameras, the settings of most significance are gain, auto-exposure and (automatic) white balance. The PS3Eye, not having any physical controls aside from an FOV setting, can be configured using the V4L2 test utility ([`v4l-utils`](https://pkgs.org/download/v4l-utils)), however changes made here do not persist across reboots. Opentrack has this configuration utility built-in, but for Linuxtrack users or those needing to change camera settings system-wide, there is a solution. Complete the following: 
+For IR-modded cameras, the settings of most significance are gain, auto-exposure and (automatic) white balance. The PS3Eye, 
+not having any physical controls aside from an FOV setting, can be configured using the V4L2 test utility ([`v4l-utils`](https://pkgs.org/download/v4l-utils)), 
+however changes made here do not persist across reboots. Opentrack seems to have this 
+utility built-in, but for Linuxtrack users or those needing to change camera settings system-wide, there is a solution:
+
+   * Ensure `v4l-utils` is installed.
+      * Video4Linux, providing core functionality for attached video devices, is available on all mainline distributions. 	
+      * Find `v4l-utils` for your distribution [here](https://pkgs.org/download/v4l-utils).
+   * Open the V4L2 test utility, and select the correct camera if there are multiple connected.
+      * Run `qv4l2` at the command line to launch the utility.
+      * If multiple cameras are connected, look in `/dev/` for `videoX` devices.
+   * Configure the settings to a suitable point. Of interest here are any automatic features that may interfere with tracking.
+      * Settings for an IR-modded PS3Eye are included below.
+      * As a general rule, automatic gain, white balance and (possibly) exposure should be disabled.
+   * Once done, return to a command line and execute `v4l2-ctl --all`. This lists all the configurable values of the camera.
+      * Framerate and pixel/capture format will be listed, but these cannot be changed via this method for the PS3Eye.
+   * Using this information, make a `.sh` file with a relevant name (such as `IRcamfix.sh`) with contents in the format:
+      > #!/bin/bash
+      > --set-ctrl=brightness=0 \
+      > --set-ctrl=contrast=32 \
+      > --set-ctrl=saturation=0 \
+      > --set-ctrl=gain_automatic=0 \
+      > --set-ctrl=gain=0 \
+      > --set-ctrl=power_line_frequency=0 \
+      > --set-ctrl=sharpness=0 \
+      > --set-ctrl=white_balance_automatic=0
+      * This accomplishes the same thing as changing these values through the GUI but allows it to be done automatically.
+      * These settings have been found to work well with a PS3Eye camera, but may need adjusting depending on use conditions.
+   * Save this script, and add it to an autorun utility such as Plasma's autostart or Lutris' pre-launch script.
+      * This will apply these changes when the start condition is triggered by their respective programs.
+
+With this done, the camera will have these changes applied automatically, allowing immediate use of headtracking without the need to preemptively tinker with a GUI before every flight.
