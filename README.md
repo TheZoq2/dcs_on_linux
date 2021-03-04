@@ -299,7 +299,7 @@ utility built-in, but for Linuxtrack users or those needing to change camera set
       > --set-ctrl=white_balance_automatic=0
       * This accomplishes the same thing as changing these values through the GUI but allows it to be done automatically.
       * These settings have been found to work well with a PS3Eye camera, but may need adjusting depending on use conditions.
-   * Save this script, and add it to an autorun utility such as Plasma's autostart or Lutris' pre-launch script.
+   * Save this file, mark it as executable and add it to an autorun utility such as Plasma's autostart or Lutris' pre-launch script.
       * This will apply these changes when the start condition is triggered by their respective programs.
 
 With this done, the camera will have these changes applied automatically, allowing immediate use of headtracking without the need to preemptively tinker with a GUI before every flight.
