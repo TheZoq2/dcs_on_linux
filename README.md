@@ -190,8 +190,8 @@ For those who want to make use of the excellent [DCS-Scratchpad utility](https:/
 [follow the installation instructions](https://github.com/rkusa/dcs-scratchpad) as normal. 
 The scratchpad should appear in game, but when typing with it's '*window*' focused, nothing will appear. 
 This is a font issue - by default, DCS-Scratchpad uses `CONSOLA.TTF`, a font not installed with Wine. 
-Edit line 172 in `Scripts/Scratchpad/ScratchpadWindow.dlg` to an installed font of your choosing, such as `CALIBRI.TTF`.
-Text should now appear in the scratchpad window. 
+Either install it with Winetricks, or edit line 172 in `Scripts/Scratchpad/ScratchpadWindow.dlg` to 
+an installed font of your choosing, such as `CALIBRI.TTF`. Text should now appear in the scratchpad window. 
 
 ### Headtracking via Opentrack
 
