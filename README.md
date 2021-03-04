@@ -243,10 +243,10 @@ Context: https://github.com/ValveSoftware/Proton/issues/1722#issuecomment-749061
 ### Headtracking via Linuxtrack
 
 In the case the Opentrack fails to work (as outlined above, it cannot support custom Wine versions
-such as those offered by Lutris) or you wish to try an alternative, Linuxtrack (https://github.com/uglyDwarf/linuxtrack/) 
+such as those offered by Lutris) or you wish to try an alternative, [Linuxtrack](https://github.com/uglyDwarf/linuxtrack/) 
 offers similar functionality. 
 
-Begin by installing the universal Linux package (https://github.com/uglyDwarf/linuxtrack/wiki/universal-Linuxtrack-package).
+Begin by installing the [universal Linux package](https://github.com/uglyDwarf/linuxtrack/wiki/universal-Linuxtrack-package).
 Once complete, run `ltr-gui` and under the 'Misc' tab, select (re)install TrackIR firmware.) Linuxtrack
 will attempt to complete this task for you, but, at time of writing, the TrackIR download links have changed, so
 you may need to do this manually. Download the latest TrackIR firmware, install it to your default (or
@@ -270,6 +270,8 @@ This only applies if an IR-modified camera is used as input to your headtracking
 so. Video4Linux(2) "*is a collection of device drivers and an API for supporting realtime video capture on Linux systems*" 
 and thus is the utility used by Opentrack and Linuxtrack to address IR cameras - often the venerable PS3Eye. V4L2 handles the 
 configuration of attached cameras, and so is the utility to use to change any settings.
+
+![QV4L2 Test Dialogue](images/V4L2test.png)
 
 For IR-modded cameras, the settings of most significance are gain, auto-exposure and (automatic) white balance. The PS3Eye, 
 not having any physical controls aside from an FOV setting, can be configured using the V4L2 test utility ([`v4l-utils`](https://pkgs.org/download/v4l-utils)), 
