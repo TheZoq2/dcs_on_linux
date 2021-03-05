@@ -236,7 +236,7 @@ point the output to the correct wine/proton prefix. In addition, you'll need to
 launch DCS with WINEESYNC=1 or WINEFSYNC=1 if you enable those in the wine
 output settings.
 
-![Opentrack Wine Implementation](/images/opentrackwine.png)
+![Opentrack Wine Implementation](https://github.com/bradley-r/dcs_on_linux/blob/master/images/opentrackwine.png)
 
 Context: https://github.com/ValveSoftware/Proton/issues/1722#issuecomment-749061952
 
@@ -252,7 +252,7 @@ will attempt to complete this task for you, but, at time of writing, the TrackIR
 you may need to do this manually. Download the latest TrackIR firmware, install it to your default (or
 temporary) prefix, then select 'Extract from unpacked'.
 
-![Linuxtrack Firmware Extractor](/images/linuxtrackextractor.png)
+![Linuxtrack Firmware Extractor](https://github.com/bradley-r/dcs_on_linux/blob/master/images/linuxtrackextractor.png)
 
 Navigate to the prefix you used, and select the TrackIR 5 folder under `/drive_c/Program Files (x86)/NaturalPoint/`. 
 Once done, you will be prompted to install the Wine-side components; select the prefix DCS is installed under
@@ -260,7 +260,7 @@ Once done, you will be prompted to install the Wine-side components; select the 
 (and has been configured), use the `FreeTrackTester.exe` present in the second prefix `/drive_c/Program Files 
 (x86)/Linuxtrack/`. You should see the values changing, and thus controlling the view in-game.
 
-![Linuxtrack/Freetrack Test Dialogue](/images/linuxtrackfreetracktest.png)
+![Linuxtrack/Freetrack Test Dialogue](https://github.com/bradley-r/dcs_on_linux/blob/master/images/linuxtrackfreetracktest.png)
 
 Note that `HeadTracker.dll` need not be present as Linuxtrack replicates TrackIR directly (in the case of DCS, at least.)
 
@@ -271,7 +271,7 @@ so. Video4Linux(2) "*is a collection of device drivers and an API for supporting
 and thus is the utility used by Opentrack and Linuxtrack to address IR cameras - often the venerable PS3Eye. V4L2 handles the 
 configuration of attached cameras, and so is the utility to use to change any settings.
 
-![QV4L2 Test Dialogue](/images/V4L2test.png)
+![QV4L2 Test Dialogue](https://github.com/bradley-r/dcs_on_linux/blob/master/images/V4L2test.png)
 
 For IR-modded cameras, the settings of most significance are gain, auto-exposure and (automatic) white balance. The PS3Eye, 
 not having any physical controls aside from an FOV setting, can be configured using the V4L2 test utility ([`v4l-utils`](https://pkgs.org/download/v4l-utils)), 
