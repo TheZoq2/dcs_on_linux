@@ -53,7 +53,7 @@ for proton use `protontricks 223750`.
 
 Start the game once first to create the prefix, then run
 ```
-<tricks command> vcrun2017 corefonts xact d3dcompiler_43
+<tricks command> vcrun2019 corefonts xact d3dcompiler_43
 ```
 
 This should be all it takes to get standalone working.
@@ -82,10 +82,17 @@ First, some variables to avoid repetition:
   `drive_c/users/$USERNAME/Saved Games/DCS<possibly openbeta>`.
 - `$LOG`: the game log file `$CONFIG_DIR/Logs/dcs.log`.
 
-For standalone, if the game crashes before showing the login screen, you need
-to add a "DLL override" for `wbemprox`. In Lutris, you can do so under "runner
-options". For Wine and Steam Proton, you can do so using the `WINEDLLOVERRIDES`
-flag: https://wiki.winehq.org/Wine_User's_Guide#WINEDLLOVERRIDES.3DDLL_Overrides.
+You need
+to add a few "dll overrides" for the game to work. As of 2.7.9, both `wbemprox` and `msdmo` need to be overridden.
+In lutris, you can do so under "runner options".
+
+For wine and steam proton, you can do so using the `WINEDLLOVERRIDES`
+flag https://wiki.winehq.org/Wine_User's_Guide#WINEDLLOVERRIDES.3DDLL_Overrides
+>>>>>>> 2978428 (add some notes on new version and fix protontricks command)
+
+```
+WINEDLLOVERRIDES='wbemprox=n;msdmo=n'
+```
 
 With that change, you should be able to log in but once the game starts you
 will see a black screen. To fix this, create a symlink from
@@ -95,6 +102,12 @@ The game should now start.
 
 You may also see a crash when loading a mission. This might be caused by a
 Arial missing font which can not be distributed with Wine.
+
+## SteamVR
+
+The game seems to work fine with steamVR. This is only possible in the steam
+version, and seems to currently only work in proton 6.3.8 (possibly in future
+proton versions, but not GE or TKG)
 
 ## Known issues and fixes
 
