@@ -88,7 +88,6 @@ In lutris, you can do so under "runner options".
 
 For wine and steam proton, you can do so using the `WINEDLLOVERRIDES`
 flag https://wiki.winehq.org/Wine_User's_Guide#WINEDLLOVERRIDES.3DDLL_Overrides
->>>>>>> 2978428 (add some notes on new version and fix protontricks command)
 
 ```
 WINEDLLOVERRIDES='wbemprox=n;msdmo=n'
