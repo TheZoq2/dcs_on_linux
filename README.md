@@ -19,6 +19,9 @@ known, up-to-date methods for getting things to work.
 Outside the proton thread, additional credit goes to @akp for the initial revision
 of the Opentrack instructions, and @bradley-r for the Linuxtrack, Scratchpad and V4L2 info.
 
+To chat about DCS World on Linux there is a Matrix chat available:
+* https://matrix.to/#/#dcs-on-linux:matrix.org
+
 ## Contents
 
    * [Installation](#installation)
