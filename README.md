@@ -26,6 +26,7 @@ To chat about DCS World on Linux there is a Matrix chat available:
 
    * [Installation](#installation)
       * [Lutris](#getting-it-working-through-lutris)
+      * [Bottles](#getting-it-working-through-bottles)
       * [Manual](#getting-it-working-manually)
    * [Bugs and Fixes](#known-issues-and-fixes)
       * [Smoke](#white-smoke-and-some-other-particles-renders-weirdly)
@@ -48,6 +49,67 @@ To chat about DCS World on Linux there is a Matrix chat available:
 An easy way to get started is to use Lutris. There are [two install scripts
 for standalone](https://lutris.net/games/dcs-world/) on Lutris which may just work out of the box.
 Much of this guide has been tested to work successfully with the 'Eagle Dynamics version'.
+
+### Getting it working through Bottles
+
+In Bottles, we're going to perform the same steps as required to get the game working manually or through steam.
+
+#### Bottles General Settings
+To start off, in the Bottles main window after startup, click the hamburger bar in the top right and go to
+Preferences
+| Tab | Setting | Value | Working as of writing |
+|--|--|--|--|
+|Runners|Prerelease|Enabled||
+|Runners|GE Wine|Download Latest|Latest wine-ge-proton7-34|
+|DLL Components|DXVK|Download Latest|Latest dxvk-2.0|
+|DLL Components|VKD3D|Download Latest|Latest vkd3d-proton-2.7|
+
+Make sure you have a DCS World installer downloaded for the next step (Below we'll be using DCS_World_OpenBeta_web.exe)
+
+#### Creating the DCS-Bottle
+Now, create a new bottle, either by using the + symbol in the top left, naming it, selecting Gaming and clicking Create, or by importing a working configuration from the hamburger bar in the top right.  
+[A working Bottles-configuration as of 2022-11-28](DCS_Bottles_configuration.yml)
+
+Under Options, click Settings
+Make sure the following settings and values are set
+| Section | Setting | Value | Working as of writing |
+|--|--|--|--|
+|Components|Runner|Latest wine-ge-X-YY|wine-ge-7-34|
+|Components|VKD3D|Latest vkd3d-proton-X.Y|vkd3d-proton-2.7|
+|Performance|Feral GameMode|Enabled (If available)|Enabled|
+|Compatability|DLL Overrides|msdmo (set to Native (Windows))|Native (Windows)|
+|Compatability|DLL Overrides|wbemprox (set to Native (Windows))|Native (Windows)|
+
+Back out to the DCS Bottle view and head into Dependencies (Below settings)
+Using the magnifying glass in the top right, find and install
+`vcredist2019` `faudio` `d3dcompiler_43` `d3dcompiler_47`
+
+Now exit Bottles and restart it
+
+#### Installing and Running DCS
+Now, click into your DCS Bottle and click Run Executable...
+Select your downloaded DCS installer and install (Default settings are fine)  
+After installation DCS should start downloading
+
+Let the download complete. You can resume an aborted download by clicking Run Executable... again and opening /Your_Bottles_Location/Your_DCS_Bottle/drive_c/Program Files/Eagle Dynamics/DCS World OpenBeta/bin/DCS.exe
+
+When the download is done, open up a terminal and cd (move) into your DCS World folder
+For example /Your_Bottles_Location/Your_DCS_Bottle/drive_c/Program Files/Eagle Dynamics/DCS World OpenBeta/
+In this folder there should be a /bin/ folder containing webrtc_plugin.dll
+We will create a link to that file from the main /DCS World OpenBeta/ folder
+If your terminal is in /DCS World OpenBeta/ run the following command: `ln -s ./bin/webrtc_plugin.dll ./webrtc_plugin.dll`
+
+In Bottles, click Add Shortcut, and select DCS.exe in the /DCS World OpenBeta/bin/ folder
+Click the three dots to the right of the Play button and select Change Launch Options...
+In Command Arguments enter (or paste) `PROTON_USE_WINED3D12=1 WINEDLLOVERRIDES='wbemprox=n' WINE_FULLSCREEN_FSR_STRENGTH=1 gamemoderun %command% --old-login`
+Save
+
+You are now ready to run DCS.
+After clicking the Play button you will see the splash screen for DCS, and if you have not yet logged in and saved your login info, the login window will probably end up hidden under the DCS Splash Screen, making it seem like the game is stuck.
+
+In your Dekstop Environment, tab to the hidden Login Window or right click DCS Login in your taskbar to select the Move-command. Hopefully your Desktop Environment allows you to move the hidden window using the keyboard arrow keys.
+
+Enter your login info and the game should start up after a short while!
 
 ### Getting it working manually
 
