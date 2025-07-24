@@ -134,11 +134,13 @@ More details here:
 https://github.com/doitsujin/dxvk/issues/4327
 
 Script (set correct path for your DCS, 1 row):
-for file in $(find ".../DCS/Bazar/shaders" -type f -exec grep -l "o.edges[0] = 1; // detail factor" {} ;); do
-echo ${file}
-cp ${file} ${file}_original
-sed -i 's/o.edges[0]\ =\ 1;\ //\ detail\ factor/o.edges[0]\ =\ 64;\ //\ detail\ factor/g' ${file}
+```
+for file in $(find ".../DCS/Bazar/shaders" -type f -exec grep -l "o.edges\[0\] = 1; // detail factor" {} \;); do
+  echo ${file}
+  cp ${file} ${file}_original
+  sed -i 's/o.edges\[0\]\ =\ 1;\ \/\/\ detail\ factor/o.edges\[0\]\ =\ 64;\ \/\/\ detail\ factor/g' ${file}
 done
+```
 
 Don't go on MP servers with this, you might get kicked or banned.
 
