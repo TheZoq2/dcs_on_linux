@@ -8,10 +8,11 @@ work to get running. The game has two distribution methods: standalone and
 Steam. Both have worked successfully, though often one will be broken and the
 other work; if one fails, it can be a good idea to try the other.
 
-The game also has two versions: stable and OpenBeta. OpenBeta is used
-by most MP servers, and stable is updated less frequently (the advantage of
-stable for us being that we don't have to work around Linux bugs every 2 weeks
-when a new OB is released.)
+If you plan to use standalone version, jump to https://github.com/budderpard/DCS_Standalone_on_linux repository.
+Although many problems are common in both type of installation, this repo will focus on Steam version.
+
+The game also has other versions "closed alpha" or "closed beta" access.
+This will not be explained here.
 
 Thanks to everyone who has helped getting the game running and debugging issues
 in the [proton issue
@@ -28,96 +29,41 @@ To chat about DCS World on Linux there is a Matrix chat available:
 ## Contents
 
    * [Installation](#installation)
-      * [Lutris](#getting-it-working-through-lutris)
-      * [Manual](#getting-it-working-manually)
    * [Bugs and Fixes](#known-issues-and-fixes)
-      * [Smoke](#white-smoke-and-some-other-particles-renders-weirdly)
-      * [F16 RWR](#f16-rwr-shows-a-opaque-square-on-the-rwr-over-the-priority-contact)
-      * [Server List](#missing-multiplayer-server-list)
-      * [F10 Crash](#crash-on-f10)
-      * [Disabled Modules](#module-disabled-by-user)
-      * [Controls](#control-issues)
+   * [Outdated fixes](#outdated-fixes)
    * [Additional Software](#other-software)
-      * [SRS](#srs)
-      * [Scratchpad](#dcs-scratchpad)
-      * [Opentrack](#headtracking-via-opentrack)
-      * [Linuxtrack](#headtracking-via-linuxtrack)
-      * [V4L2](#a-note-on-headtracking)
 
 ## Installation
 
-### Getting it working through Lutris
-
-An easy way to get started is to use Lutris. There are [two install scripts
-for standalone](https://lutris.net/games/dcs-world/) on Lutris which may just work out of the box.
-Much of this guide has been tested to work successfully with the 'Eagle Dynamics version'.
-
-### Getting it working manually
-
-Both versions need some winetricks applied. For standalone, use `winetricks`,
-for proton use `protontricks 223750`.
-
-Start the game once first to create the prefix, then run
-```
-<tricks command> vcrun2019 corefonts xact d3dcompiler_43
-```
-
-This should be all it takes to get standalone working.
-
-#### Fixing Steam version permanent crashing
-
-If your game crashes in the Steam version, it will permanently fail to start
-after that. To fix that: remove `drive_c/windows/system32/lsteamclient.dll`
-which was created in the crash, and the game should start back up fine.
-
-#### Open Beta (updated for 2.5.6.59398)
-
-For now, this guide assumes you use the standalone version. The steam version
-may also work, but I have not tested it in a while. Currently, Wine 6.0 rc1 or
-the Lutris version of that release are what work best but other wine versions
-may also work.
-
-First, some variables to avoid repetition:
-
-- `$USERNAME`: refers to the wine user. On standalone, this is your normal
-  username and on steam it is `steamuser`.
-- `$INSTALL_DIR`: the location in program files where the game is installed.
-  On standalone: `drive_c/Program Files/Eagle Dynamics/DCS` or `DCS World OpenBeta`. On Steam, it's
-  `/home/frans/.local/share/Steam/steamapps/common/DCSWorld`
-- `$CONFIG_DIR`: the place where user config stuff is stored
-  `drive_c/users/$USERNAME/Saved Games/DCS<possibly openbeta>`.
-- `$LOG`: the game log file `$CONFIG_DIR/Logs/dcs.log`.
-
-You need
-to add a few "dll overrides" for the game to work. As of 2.7.9, both `wbemprox` and `msdmo` need to be overridden.
-In lutris, you can do so under "runner options".
-
-For wine and steam proton, you can do so using the `WINEDLLOVERRIDES`
-flag https://wiki.winehq.org/Wine_User's_Guide#WINEDLLOVERRIDES.3DDLL_Overrides
-
-```
-WINEDLLOVERRIDES='wbemprox=n;msdmo=n'
-```
-
-With that change, you should be able to log in but once the game starts you
-will see a black screen. To fix this, create a symlink from
-`$INSTALL_DIR/bin/webrtc_plugin.dll` to `$INSTALL_dir/webrtc_plugin.dll`.
-
-The game should now start.
-
-You may also see a crash when loading a mission. This might be caused by a
-Arial missing font which can not be distributed with Wine.
-
-## SteamVR
-
-The game seems to work fine with steamVR. This is only possible in the steam
-version, and seems to currently only work in proton 6.3.8 (possibly in future
-proton versions, but not GE or TKG)
+* Install the game.
+* Set steam compatibility options to 'Proton 9' or above.
+* Proton tricks should be applied. Install `protontricks` from your linux repository or via flatpak.
+* If you install from distro repo, the `<tricks_command>` will be `protontricks`
+* If installed with flatpak, the `<tricks_command>` will be `flatpak run com.github.Matoking.protontricks`.
+* Start the game once first to create the prefix. It will not start: probably hang or show a black window, or entire black screen. Finalize the game in steam.
+* Install additional protontricks packages via command line: `<tricks_command> 223750 vcrun2019 corefonts xact d3dcompiler_47` or open protontricks app and install those packages in the GUI.
+* In steam command line, set the launch options: `WINEDLLOVERRIDES='wbemprox=n' %command% --no-launcher`
+* Start the game again. If there are problemsn, check #known-issues-and-fixes .
 
 ## Known issues and fixes
 
+### Game files (important to read!)
+
+Before advancing to more fixes, locate the game files. They will be needed later on.
+
+- `$INSTALL_DIR`: the location in program files where the game is installed.
+  `/home/youruser/.local/share/Steam/steamapps/common/DCSWorld`
+- `$CONFIG_DIR`: the place where user config stuff is stored
+  `/home/youruser/.local/share/Steam/steamapps/compatdata/223750/pfx/drive_c/users/steamuser/Saved Games/DCS/`.
+- `$WINDOWS_DIR`: the place where wine is installed
+  `/home/youruser/.local/share/Steam/steamapps/compatdata/223750/pfx/drive_c/windows`.
+- `$LOG_DIR`: the game log file `$CONFIG_DIR/Logs/`.
+- If steam is installed via flatpak, these folders will be different. Instead of `/home/youruser/`, use `/home/youruser/.var/app/com.valvesoftware.Steam/` (for user installation) or `/var/lib/flatpak/app/com.valvesoftware.Steam/` (for system installation)
+
+### Log file
+
 If things go wrong, the primary thing to look for is the game log - 
-`drive_c/users/$USERNAME/Saved Games/DCS<possibly openbeta>/Logs/dcs.log`.
+`$LOG_DIR/dcs.log`.
 After crashes, the crash reporter will spam a bit about various DLLs being used
 recently, and just before that, the cause of the crash should be visible.
 
@@ -128,10 +74,61 @@ this by starting them from a terminal.
 If you can't find an issue, or have found a solution for one, please discuss it in
 the [proton issue](https://github.com/ValveSoftware/Proton/issues/1722).
 
+
+### Fixing Steam version permanent crashing
+
+If your game crashes in the Steam version, it will permanently fail to start
+after that. To fix that: remove `$WINDOWS_DIR/system32/lsteamclient.dll`
+which was created in the crash, and the game should start back up fine.
+
+### Avoiding launcher window - black screen at startup
+Starting from DCS 2.9.6.57650 a launcher window was added. Use steam command line option `--no-launcher` (already in this tutorial). But if even so, if the game is stuck in a wrong resolution of game options, try to reset confiuration:
+1) Copy the simple template file `options.lua` in this repository to your folder
+`$CONFIG_DIR/Config/options.lua`
+2) Launch the game. It shall open in a small window. Go the the options (gear icon
+in top) and select manually your screen resolution and maybe try other configurations.
+3) If the resolution (or maybe some config) is not supported and the game does not launch,
+use the simple template file `options.lua` again.
+
+### DLL Overrides
+
+Probably you need
+to add a few "dll overrides" for the game to work. `wbemprox` was already added in instalation tutorial. Sometimes `msdmo` also need to be overridden.
+
+To add both overrides, update your command line launcher options with `WINEDLLOVERRIDES='wbemprox=n;msdmo=n'`
+
+### Black Screen On Game Startup
+
+You should be able to log in, but once the game starts you will see a black screen. To fix this, create a symlink from
+`$INSTALL_DIR/bin/webrtc_plugin.dll` to `$INSTALL_dir/webrtc_plugin.dll`.
+
+The game should now start.
+
+You may also see a crash when loading a mission. This might be caused by a
+Arial missing font which can not be distributed with Wine.
+
+### fx_5_0 error shaders not compiling
+This is usually caused by d3dcompiler being missing or obsolete.
+Make sure you have d3dcompiler_47 installed.
+If it was installed much time ago, maybe you need to update it.
+To force update, use protontricks command `protontricks 223750 -f d3dcompiler_47` or if you have protontricks as flatpak `flatpak run com.github.Matoking.protontricks 223750 -f d3dcompiler_47`.
+
 ### White smoke and some other particles renders weirdly
 
-This is a long standing issue, most likely related to texture loading and tesselation. 
-Luckily, it is just a visual artefact that can be (largely) ignored.
+This is caused by DXVK. Remember that there is a translation between DX11 (used by the game) and Linux Vulkan API. Check "Using WineD3D (OpenGL) instead of Vulkan".
+
+### Game is slow after looking at F10 map
+
+F10 map causes a lot of textures to be loaded into memory, sometimes overflowing VRAM and even computer RAM. Sometimes it returns to normal by itself, other times you switch between aplications (Alt+Tab), or maybe if you look up at the sky. Try to lower graphics options to be less affected, of avoid DXVK entirely. 
+
+### Using WineD3D (OpenGL) instead of Vulkan
+
+It is possible that the game run faster in OpenGL than in Vulkan.
+Wine has internal transalation from DX to OpenGL, called WineD3D.
+While the default option is to use DXVL instead of WineD3D, Wine D3D option may be tested for old graphic cards or if you experience problems like stutters or low performance in multiplayer games.
+Add `PROTON_USE_WINED3D=1` at the beginning of launcher options.
+This solves the puffy contrails, but some textures can be weird, like some "burnt grass" or "golden grass" in Caucasus map.
+Otherwise, it seems to be very nice in Syria and Persian Gulf maps, where the 'F10 slowness' are frequent using default DXVK!
 
 ### F16 RWR shows a opaque square on the RWR over the priority contact
 
@@ -187,6 +184,17 @@ will be disabled in steam too. This information is stored in
 Due to the various differences between distributions, issues with (HOTAS) controls can be hard to nail down,
 especially when Wine is involved - adding another layer of potentional problems. Users experiencing issues with
 controllers are advised to read through [the information here](https://github.com/bradley-r/Linux-Controller-Fixes/).
+
+### SteamVR
+
+The game seems to work fine with steamVR. This is only possible in the steam
+version, and seems to currently only work in proton 6.3.8 (possibly in future
+proton versions, but not GE or TKG)
+Currently the game only runs in proton 9+, so if you have updated info about VR, please contribute.
+
+## Outdated fixes
+
+Fixes from previous versions will be stored here. Maybe they can help someone but probably not needed anymore.
 
 ## Other software
 
